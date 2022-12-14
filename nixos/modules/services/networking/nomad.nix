@@ -30,6 +30,21 @@ in
         '';
       };
 
+      environmentFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = lib.mdDoc ''
+          Additional environment file for nomad.
+
+          Can be used to define secrets for nomad without
+          putting them in the world-readable store. e.g.
+          `VAULT_TOKEN`
+        '';
+        example = literalExpression ''
+          /var/lib/nomad.env
+        '';
+      };
+
       dropPrivileges = mkOption {
         type = types.bool;
         default = true;
@@ -156,6 +171,9 @@ in
         })
         (mkIf (cfg.settings.data_dir == "/var/lib/nomad") {
           StateDirectory = "nomad";
+        })
+        (mkIf (cfg.environmentFile != null) {
+          EnvironmentFile = cfg.environmentFile;
         })
       ];
 

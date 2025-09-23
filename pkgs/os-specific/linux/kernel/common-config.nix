@@ -548,9 +548,6 @@ let
         # Enable AMD image signal processor
         DRM_AMD_ISP = whenAtLeast "6.11" yes;
 
-        # Enable new firmware (and by extension NVK) for compatible hardware on Nouveau
-        DRM_NOUVEAU_GSP_DEFAULT = whenAtLeast "6.8" yes && whenOlder "6.18";
-
         # Enable Nouveau shared virtual memory (used by OpenCL)
         DEVICE_PRIVATE = whenHasDevicePrivate yes;
         DRM_NOUVEAU_SVM = whenHasDevicePrivate yes;
